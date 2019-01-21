@@ -14,7 +14,13 @@ class Search extends Component {
     image_size: { width: "60px" }
   };
 
-  getInfo = () => {
+  getInfo = event => {
+    event.preventDefault();
+    this.setState({
+      searchResults: [],
+      spinnerStyle: { display: "block" },
+      errorStyle: { display: "none" }
+    });
     axios
       .get(
         `${API_URL}?action=query&list=search&srsearch=${
@@ -42,11 +48,11 @@ class Search extends Component {
       });
   };
 
-  handleInputChange = () => {
+  handleInputChange(event) {
     this.setState({
-      query: this.search.value
+      query: event.target.value
     });
-  };
+  }
 
   render() {
     const { json_data } = this.state;
@@ -60,13 +66,17 @@ class Search extends Component {
             alt="wiki-logo"
             src={logo}
           />
-          <span class="fas fa-search"> </span>
-          <input
-            className="w-50"
-            placeholder="&#x1F50E; Search for..."
-            ref={input => (this.search = input)}
-            onChange={this.handleInputChange}
-          />
+          <form role="search" onSubmit={event => this.getInfo(event)}>
+            <span class="fas fa-search"> </span>
+            <input
+              type="search"
+              className="w-50"
+              placeholder="&#x1F50E; Search for..."
+              onChange={event => this.handleInputChange(event)}
+              value={this.state.query}
+              required
+            />
+          </form>
           <br />
 
           <button className=" btn-light  btn-lg mt-2" onClick={this.getInfo}>
