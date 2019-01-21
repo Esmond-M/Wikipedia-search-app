@@ -75,13 +75,12 @@ class Search extends Component {
               onChange={event => this.handleInputChange(event)}
               value={this.state.query}
               required
-            />
+            />{" "}
+            <button type="submit">
+              <i class="fa fa-search" />
+            </button>
           </form>
           <br />
-
-          <button className=" btn-light  btn-lg mt-2" onClick={this.getInfo}>
-            Enter
-          </button>
 
           {json_data.map(json_data => (
             <article className=" bg-black mt-4 w-50 mx-auto">
@@ -89,10 +88,11 @@ class Search extends Component {
                 {json_data.title}
               </h2>
               <p
-                className="text-white text-left pb-3 pl-3"
+                className="text-white text-left pb-2 pl-3"
                 dangerouslySetInnerHTML={{ __html: `${json_data.snippet}...` }}
               />
               <a
+                className=""
                 href={`https://en.wikipedia.org/wiki/${json_data.title}`}
                 target="_blank"
               >
