@@ -40,18 +40,9 @@ class Search extends Component {
   };
 
   handleInputChange = () => {
-    this.setState(
-      {
-        query: this.search.value
-      },
-      () => {
-        if (this.state.query && this.state.query.length > 1) {
-          if (this.state.query.length % 2 === 0) {
-            this.getInfo();
-          }
-        }
-      }
-    );
+    this.setState({
+      query: this.search.value
+    });
   };
 
   render() {
@@ -63,8 +54,6 @@ class Search extends Component {
           ref={input => (this.search = input)}
           onChange={this.handleInputChange}
         />
-<<<<<<< HEAD
-=======
         <button onClick={this.getInfo}>Get data</button>
         <ul>
           {json_data.map(json_data => (
@@ -75,7 +64,6 @@ class Search extends Component {
           <span className="fa fa-exclamation-circle fa-lg fa-fw" />
           {this.state.errorMessage}
         </p>
->>>>>>> 34c5ac1bcf324c4912c418842ca03c9223748113
       </main>
     );
   }
