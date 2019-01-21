@@ -26,9 +26,18 @@ class Search extends Component {
   };
 
   handleInputChange = () => {
-    this.setState({
-      query: this.search.value
-    });
+    this.setState(
+      {
+        query: this.search.value
+      },
+      () => {
+        if (this.state.query && this.state.query.length > 1) {
+          if (this.state.query.length % 2 === 0) {
+            this.getInfo();
+          }
+        }
+      }
+    );
   };
 
   render() {
@@ -39,7 +48,6 @@ class Search extends Component {
           ref={input => (this.search = input)}
           onChange={this.handleInputChange}
         />
-        <button onClick={this.getInfo}>Get data</button>
       </main>
     );
   }
