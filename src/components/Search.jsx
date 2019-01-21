@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-const API_KEY = "f4dcebcdbd09339fefc068d26021a70a";
 const API_URL = "https://en.wikipedia.org/w/api.php";
 
 class Search extends Component {
@@ -16,12 +15,27 @@ class Search extends Component {
       .get(
         `${API_URL}?action=query&list=search&srsearch=${
           this.state.query
-        }&origin=*&format=jsonfm`
+        }&origin=*&format=json`
       )
-      .then(res => {
-        const json_data = res.data;
-        this.setState({ json_data });
+      .then(json_data => {
+        this.setState({ json_data: json_data.data.query.search });
         console.log(json_data);
+
+        if (this.state.query.length === 0) {
+          this.setState({
+            errorMessage: ` Unable to find results for \"${
+              this.state.query
+            }\". Consider revising your search.`,
+            errorStyle: { display: "block" }
+          });
+        }
+      })
+      .catch(error => {
+        this.setState({
+          errorMessage: " Unable to load Wikipedia search results.",
+          spinnerStyle: { display: "none" },
+          errorStyle: { display: "block" }
+        });
       });
   };
 
@@ -43,9 +57,13 @@ class Search extends Component {
         <button onClick={this.getInfo}>Get data</button>
         <ul>
           {json_data.map(json_data => (
-            <li>{json_data.search.title}</li>
+            <li>{json_data.title}</li>
           ))}
         </ul>
+        <p className="message error-message" style={this.state.errorStyle}>
+          <span className="fa fa-exclamation-circle fa-lg fa-fw" />
+          {this.state.errorMessage}
+        </p>
       </main>
     );
   }
