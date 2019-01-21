@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import logo from "E:/Downloads/Ususable/web developer related/my react projects/search-app/src/images/wikipedia-icon.png";
 import "./Search.css";
 const API_URL = "https://en.wikipedia.org/w/api.php";
 
@@ -9,7 +10,8 @@ class Search extends Component {
     results: [],
     json_data: [],
     errorMessage: "",
-    errorStyle: { display: "none" }
+    errorStyle: { display: "none" },
+    image_size: { width: "60px" }
   };
 
   getInfo = () => {
@@ -50,8 +52,14 @@ class Search extends Component {
     const { json_data } = this.state;
     return (
       <main className="container">
+        <h3 className="text-center text-white pt-2">Wikipedia Search</h3>
         <contain className="inputMidHeight d-block mx-auto text-center">
-          <img src="/images/wikipedia-icon" />
+          <img
+            style={this.state.image_size}
+            className="d-block mb-2 mx-auto"
+            alt="wiki-logo"
+            src={logo}
+          />
           <span class="fas fa-search"> </span>
           <input
             className="w-50"
@@ -74,6 +82,12 @@ class Search extends Component {
                 className="text-white text-left pb-3 pl-3"
                 dangerouslySetInnerHTML={{ __html: `${json_data.snippet}...` }}
               />
+              <a
+                href={`https://en.wikipedia.org/wiki/${json_data.title}`}
+                target="_blank"
+              >
+                Continue Reading...
+              </a>
             </article>
           ))}
 
