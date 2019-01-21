@@ -1,0 +1,13 @@
+.inputMidHeight {
+  padding-top: 30%;
+}
+.bg-black {
+  background-color: black !important;
+}
+
+a.bg-black:hover,
+a.bg-black:focus,
+button.bg-black:hover,
+button.bg-black:focus {
+  background-color: black !important;
+}
