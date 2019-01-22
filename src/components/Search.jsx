@@ -9,6 +9,7 @@ class Search extends Component {
     query: "",
     results: [],
     json_data: [],
+    json_data_images: [],
     errorMessage: "",
     errorStyle: { display: "none" },
     image_size: { width: "60px" }
@@ -25,10 +26,15 @@ class Search extends Component {
       .get(
         `${API_URL}?action=query&list=search&srsearch=${
           this.state.query
-        }&origin=*&format=json`
+        }&generator=search&gsrsearch=${
+          this.state.query
+        }&prop=pageimages|revisions&rvprop=content&rvsection=0&origin=*&format=json`
       )
       .then(json_data => {
-        this.setState({ json_data: json_data.data.query.search });
+        this.setState({
+          json_data: json_data.data.query.search,
+          json_data_images: json_data.data.query.pages
+        });
         console.log(json_data);
 
         if (this.state.query.length === 0) {
@@ -56,6 +62,7 @@ class Search extends Component {
 
   render() {
     const { json_data } = this.state;
+    const { json_data_images } = this.state;
     return (
       <main className="container">
         <h3 className="text-center text-white pt-2">Wikipedia Search</h3>
@@ -67,7 +74,7 @@ class Search extends Component {
             src={logo}
           />
           <form role="search" onSubmit={event => this.getInfo(event)}>
-            <span class="fas fa-search"> </span>
+            <span className="fas fa-search"> </span>
             <input
               type="search"
               className="w-50"
@@ -77,13 +84,13 @@ class Search extends Component {
               required
             />{" "}
             <button type="submit">
-              <i class="fa fa-search" />
+              <i className="fa fa-search" />
             </button>
           </form>
           <br />
 
           {json_data.map(json_data => (
-            <article className=" bg-black mt-4 w-50 mx-auto">
+            <article className=" bg-black mt-4  mb-2 article-width mx-auto">
               <h2 className="pt-2 pl-3 text-white text-left">
                 {json_data.title}
               </h2>

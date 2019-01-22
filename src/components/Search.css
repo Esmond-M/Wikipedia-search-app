@@ -11,3 +11,18 @@ button.bg-black:hover,
 button.bg-black:focus {
   background-color: black !important;
 }
+.article-width {
+  width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  /* Styles */
+  .article-width {
+    width: 60%;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  /* Styles */
+  .article-width {
+    width: 50%;
+  }
+}
