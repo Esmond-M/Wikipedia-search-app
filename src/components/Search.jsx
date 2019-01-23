@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import logo from "E:/Downloads/Ususable/web developer related/my react projects/search-app/src/images/wikipedia-icon.png";
 import "./Search.css";
+import placeholder from "E:/Downloads/Ususable/web developer related/my react projects/search-app/src/images/wiki.svg";
 const API_URL = "https://en.wikipedia.org/w/api.php";
 
 class Search extends Component {
@@ -9,7 +10,7 @@ class Search extends Component {
     query: "",
     results: [],
     json_data: [],
-    json_data_images: [],
+    wiki_data: [],
     errorMessage: "",
     errorStyle: { display: "none" },
     image_size: { width: "60px" }
@@ -24,18 +25,16 @@ class Search extends Component {
     });
     axios
       .get(
-        `${API_URL}?action=query&list=search&srsearch=${
+        `${API_URL}?action=query&generator=search&formatversion=2&gsrsearch=${
           this.state.query
-        }&generator=search&gsrsearch=${
-          this.state.query
-        }&prop=pageimages|revisions&rvprop=content&rvsection=0&origin=*&format=json`
+        }&piprop=thumbnail&prop=pageimages|extracts&format=json&exintro&origin=*&format=json`
       )
-      .then(json_data => {
+      .then(wiki_data => {
         this.setState({
-          json_data: json_data.data.query.search,
-          json_data_images: json_data.data.query.pages
+          wiki_data: wiki_data.data.query.pages
         });
-        console.log(json_data);
+
+        console.log(wiki_data);
 
         if (this.state.query.length === 0) {
           this.setState({
@@ -61,8 +60,8 @@ class Search extends Component {
   }
 
   render() {
-    const { json_data } = this.state;
-    const { json_data_images } = this.state;
+    const { wiki_data } = this.state;
+
     return (
       <main className="container">
         <h3 className="text-center text-white pt-2">Wikipedia Search</h3>
@@ -82,30 +81,15 @@ class Search extends Component {
               onChange={event => this.handleInputChange(event)}
               value={this.state.query}
               required
-            />{" "}
+            />
             <button type="submit">
               <i className="fa fa-search" />
             </button>
           </form>
           <br />
 
-          {json_data.map(json_data => (
-            <article className=" bg-black mt-4  mb-2 article-width mx-auto">
-              <h2 className="pt-2 pl-3 text-white text-left">
-                {json_data.title}
-              </h2>
-              <p
-                className="text-white text-left pb-2 pl-3"
-                dangerouslySetInnerHTML={{ __html: `${json_data.snippet}...` }}
-              />
-              <a
-                className=""
-                href={`https://en.wikipedia.org/wiki/${json_data.title}`}
-                target="_blank"
-              >
-                Continue Reading...
-              </a>
-            </article>
+          {wiki_data.map(wiki_data => (
+            <div>{JSON.stringify(wiki_data.thumbnail)} </div>
           ))}
 
           <p className="text-white error-message" style={this.state.errorStyle}>
