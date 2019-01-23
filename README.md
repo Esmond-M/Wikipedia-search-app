@@ -6,7 +6,7 @@ In the project directory, you can run:
 
 installs the correct node modules for this project<br>
 
-### `npm start`
+### `npm run start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
