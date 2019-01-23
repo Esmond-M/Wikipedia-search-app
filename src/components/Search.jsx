@@ -11,6 +11,7 @@ class Search extends Component {
     results: [],
     json_data: [],
     wiki_data: [],
+    wiki_img: [],
     errorMessage: "",
     errorStyle: { display: "none" },
     image_size: { width: "60px" }
@@ -31,7 +32,8 @@ class Search extends Component {
       )
       .then(wiki_data => {
         this.setState({
-          wiki_data: wiki_data.data.query.pages
+          wiki_data: wiki_data.data.query.pages,
+          wiki_img: wiki_data.data.query.pages.thumbnail
         });
 
         console.log(wiki_data);
@@ -61,6 +63,7 @@ class Search extends Component {
 
   render() {
     const { wiki_data } = this.state;
+    const { wiki_img } = this.state;
 
     return (
       <main className="container">
@@ -88,10 +91,19 @@ class Search extends Component {
           </form>
           <br />
 
-          {wiki_data.map(wiki_data => (
-            <div>{JSON.stringify(wiki_data.thumbnail)} </div>
+          {/** {wiki_data.map(wiki_data => (
+            <div className="text-white">
+              {JSON.stringify(wiki_data.thumbnail)}
+            </div>
           ))}
+           */}
 
+          {wiki_data.map(wiki_data => (
+            <div className="text-white">
+              {JSON.stringify(wiki_data.thumbnail) &&
+                wiki_data.thumbnail.source}
+            </div>
+          ))}
           <p className="text-white error-message" style={this.state.errorStyle}>
             <span className="fa fa-exclamation-circle fa-lg fa-fw" />
             {this.state.errorMessage}
