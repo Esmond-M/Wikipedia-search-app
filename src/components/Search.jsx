@@ -11,7 +11,6 @@ class Search extends Component {
     results: [],
     json_data: [],
     wiki_data: [],
-    wiki_img: [],
     errorMessage: "",
     errorStyle: { display: "none" },
     image_size: { width: "60px" }
@@ -28,7 +27,7 @@ class Search extends Component {
       .get(
         `${API_URL}?action=query&generator=search&formatversion=2&gsrsearch=${
           this.state.query
-        }&piprop=thumbnail&prop=pageimages|extracts&format=json&exintro&origin=*&format=json`
+        }&piprop=thumbnail|name|original&prop=pageimages|extracts&format=json&exintro&origin=*`
       )
       .then(wiki_data => {
         this.setState({
@@ -40,7 +39,7 @@ class Search extends Component {
 
         if (this.state.query.length === 0) {
           this.setState({
-            errorMessage: ` Unable to find results for \"${
+            errorMessage: ` Unable to find results for "${
               this.state.query
             }\". Consider revising your search.`,
             errorStyle: { display: "block" }
@@ -63,12 +62,11 @@ class Search extends Component {
 
   render() {
     const { wiki_data } = this.state;
-    const { wiki_img } = this.state;
 
     return (
-      <main className="container">
+      <main className="">
         <h3 className="text-center text-white pt-2">Wikipedia Search</h3>
-        <contain className="inputMidHeight d-block mx-auto text-center">
+        <contain className="container inputMidHeight d-block mx-auto text-center">
           <img
             style={this.state.image_size}
             className="d-block mb-2 mx-auto"
@@ -91,24 +89,41 @@ class Search extends Component {
           </form>
           <br />
 
-          {/** {wiki_data.map(wiki_data => (
-            <div className="text-white">
-              {JSON.stringify(wiki_data.thumbnail)}
-            </div>
-          ))}
-           */}
-
-          {wiki_data.map(wiki_data => (
-            <div className="text-white">
-              {JSON.stringify(wiki_data.thumbnail) &&
-                wiki_data.thumbnail.source}
-            </div>
-          ))}
           <p className="text-white error-message" style={this.state.errorStyle}>
             <span className="fa fa-exclamation-circle fa-lg fa-fw" />
             {this.state.errorMessage}
           </p>
         </contain>
+        <div className="container-fluid">
+          {wiki_data.map(wiki_data => (
+            <article className="d-block col-lg-3 bg-black mt-4 ">
+              <img
+                className="d-block mx-auto w-25"
+                alt="wiki-logo"
+                src={
+                  (JSON.stringify(wiki_data.original, true) &&
+                    wiki_data.original.source) ||
+                  placeholder
+                }
+              />
+
+              <h2 className="pt-2 pl-3 text-white text-left">
+                {wiki_data.title}
+              </h2>
+              <p
+                className="wiki-biotext text-white text-left pb-3 pl-3"
+                dangerouslySetInnerHTML={{ __html: `${wiki_data.extract}...` }}
+              />
+              <a
+                href={`https://en.wikipedia.org/wiki/${wiki_data.title}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Continue Reading...
+              </a>
+            </article>
+          ))}
+        </div>
       </main>
     );
   }
