@@ -88,17 +88,10 @@ class Search extends Component {
             </button>
           </form>
           <br />
-
-          <p className="text-white error-message" style={this.state.errorStyle}>
-            <span className="fa fa-exclamation-circle fa-lg fa-fw" />
-            {this.state.errorMessage}
-          </p>
-        </contain>
-        <div className="container-fluid">
           {wiki_data.map(wiki_data => (
-            <article className="d-block col-lg-3 bg-black mt-4 ">
+            <article className="article-width mx-auto d-block bg-black mt-4 ">
               <img
-                className="d-block mx-auto w-25"
+                className="d-block mx-auto w-50 pt-2"
                 alt="wiki-logo"
                 src={
                   (JSON.stringify(wiki_data.original, true) &&
@@ -123,7 +116,11 @@ class Search extends Component {
               </a>
             </article>
           ))}
-        </div>
+          <p className="text-white error-message" style={this.state.errorStyle}>
+            <span className="fa fa-exclamation-circle fa-lg fa-fw" />
+            {this.state.errorMessage}
+          </p>
+        </contain>
       </main>
     );
   }
