@@ -74,7 +74,6 @@ class Search extends Component {
             src={logo}
           />
           <form role="search" onSubmit={event => this.getInfo(event)}>
-            <span className="fas fa-search"> </span>
             <input
               type="search"
               className="w-50"
