@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import logo from "E:/Downloads/Ususable/web developer related/my react projects/search-app/src/images/wikipedia-icon.png";
+import logo from "../images/wikipedia-icon.png";
 import "./Search.css";
-import placeholder from "E:/Downloads/Ususable/web developer related/my react projects/search-app/src/images/wiki.svg";
+import placeholder from "../images/wiki.svg";
 const API_URL = "https://en.wikipedia.org/w/api.php";
 
 class Search extends Component {
@@ -31,11 +31,8 @@ class Search extends Component {
       )
       .then(wiki_data => {
         this.setState({
-          wiki_data: wiki_data.data.query.pages,
-          wiki_img: wiki_data.data.query.pages.thumbnail
+          wiki_data: wiki_data.data.query.pages
         });
-
-        console.log(wiki_data);
 
         if (this.state.query.length === 0) {
           this.setState({
@@ -66,7 +63,7 @@ class Search extends Component {
     return (
       <main className="">
         <h3 className="text-center text-white pt-2">Wikipedia Search</h3>
-        <contain className="container inputMidHeight d-block mx-auto text-center">
+        <div className="container inputMidHeight d-block mx-auto text-center">
           <img
             style={this.state.image_size}
             className="d-block mb-2 mx-auto"
@@ -88,7 +85,10 @@ class Search extends Component {
           </form>
           <br />
           {wiki_data.map(wiki_data => (
-            <article className="article-width mx-auto d-block bg-black mt-4 ">
+            <article
+              className="article-width mx-auto d-block bg-black mt-4 "
+              key={wiki_data.pageid}
+            >
               <img
                 className="d-block mx-auto w-50 pt-2"
                 alt="wiki-logo"
@@ -119,7 +119,7 @@ class Search extends Component {
             <span className="fa fa-exclamation-circle fa-lg fa-fw" />
             {this.state.errorMessage}
           </p>
-        </contain>
+        </div>
       </main>
     );
   }
